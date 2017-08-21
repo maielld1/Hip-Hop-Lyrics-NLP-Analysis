@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Hip Hop Song Recommender</title>
+    <style>
+    @import url(http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
+
+    body {
+      background-color: #424242;
+      font-family: "Roboto", helvetica, arial, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      text-rendering: optimizeLegibility;
+    }
+
+    div.dropdowns {
+      color: #2EFE2E;
+      padding: 15px 32px;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+
+    }
+
+    input {
+      border: 0 none;
+      color: black;
+      background: #2EFE2E;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 2px 10px;
+      *background: #58B14C;
+    }
+    select {
+    border: 0 none;
+    color: black;
+    background: #2EFE2E;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 2px 10px;
+    *background: #58B14C;
+   }
+
+#mainselection {
+    overflow: hidden;
+    width: 350px;
+    -moz-border-radius: 9px 9px 9px 9px;
+    -webkit-border-radius: 9px 9px 9px 9px;
+    border-radius: 9px 9px 9px 9px;
+    box-shadow: 1px 1px 11px #330033;
+    background: url("arrow.gif") no-repeat scroll 319px 5px #58B14C;
+}
+
+    div.table-title {
+      display: block;
+      margin: auto;
+      max-width: 600px;
+      padding:5px;
+      width: 100%;
+    }
+
+    div.table {
+      margin: auto;
+    }
+
+    .table-title h3 {
+       color: #2EFE2E;
+       font-size: 30px;
+       font-weight: 400;
+       font-style:normal;
+       font-family: "Roboto", helvetica, arial, sans-serif;
+       text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+       text-transform:uppercase;
+    }
+
+    .button.inputfile{
+        position: absolute;
+        left: 0px;
+    }
+    .buttons{
+        text-align: center;
+    }
+
+    .inputfile{
+        background-color: #2EFE2E;
+        border: none;
+        color: black;
+        padding: 15px 32px;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+
+    }
+
+    .inputfile:focus,
+    .inputfile:hover {
+        background-color: red;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #2EFE2E;
+        margin: auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 80%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s
+    }
+
+    /* Add Animation */
+    @-webkit-keyframes animatetop {
+        from {top:-300px; opacity:0}
+        to {top:0; opacity:1}
+    }
+
+    @keyframes animatetop {
+        from {top:-300px; opacity:0}
+        to {top:0; opacity:1}
+    }
+
+    /* The Close Button */
+    .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #2EFE2E;
+        color: black;
+    }
+
+    .modal-body {padding: 2px 16px;}
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #2EFE2E;
+        color: black;
+    }
+
+
+    /*** Table Styles **/
+
+    .table-fill {
+      background: white;
+      border-radius:3px;
+      border-collapse: collapse;
+      height: 320px;
+      margin: auto;
+      max-width: 600px;
+      padding:5px;
+      width: 100%;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      animation: float 5s infinite;
+    }
+
+    th {
+      color:#D5DDE5;;
+      background:#1b1e24;
+      border-bottom:4px solid #9ea7af;
+      border-right: 1px solid #343a45;
+      font-size:23px;
+      font-weight: 100;
+      padding:24px;
+      text-align:left;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      vertical-align:middle;
+    }
+
+    th:first-child {
+      border-top-left-radius:3px;
+    }
+
+    th:last-child {
+      border-top-right-radius:3px;
+      border-right:none;
+    }
+
+    tr {
+      border-top: 1px solid #C1C3D1;
+      border-bottom-: 1px solid #C1C3D1;
+      color:#666B85;
+      font-size:16px;
+      font-weight:normal;
+      text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+    }
+
+    tr:hover td {
+      background:#4E5066;
+      color:#FFFFFF;
+      border-top: 1px solid #22262e;
+      border-bottom: 1px solid #22262e;
+    }
+
+    tr:first-child {
+      border-top:none;
+    }
+
+    tr:last-child {
+      border-bottom:none;
+    }
+
+    tr:nth-child(odd) td {
+      background:#EBEBEB;
+    }
+
+    tr:nth-child(odd):hover td {
+      background:#4E5066;
+    }
+
+    tr:last-child td:first-child {
+      border-bottom-left-radius:3px;
+    }
+
+    tr:last-child td:last-child {
+      border-bottom-right-radius:3px;
+    }
+
+    td {
+      background:#FFFFFF;
+      padding:20px;
+      text-align:left;
+      vertical-align:middle;
+      font-weight:300;
+      font-size:18px;
+      text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+      border-right: 1px solid #C1C3D1;
+    }
+
+    td:last-child {
+      border-right: 0px;
+    }
+
+    th.text-left {
+      text-align: left;
+    }
+
+    th.text-center {
+      text-align: center;
+    }
+
+    th.text-right {
+      text-align: right;
+    }
+
+    td.text-left {
+      text-align: left;
+    }
+
+    td.text-center {
+      text-align: center;
+    }
+
+    td.text-right {
+      text-align: right;
+    }
+
+    </style>
+
+</head>
+
+<body>
+  <html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Table Style</title>
+	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+</head>
+
+<body>
+    <div class="table-title" align=center>
+        <h3>Hip Hop Song Recommender</h3>
+    </div>
+
+    <div class="buttons">
+        <button id=submit type=submit value="Get Similar!" class="inputfile">
+          Get Similar!
+        </button>
+        <button id="instructions" class="inputfile">Instructions</button>
+    </div>
+
+    <h1 style='color:#2EFE2E'>Pick a Song!</h1>
+
+    <div class="entries">
+      <h3 style='color:#2EFE2E'>Parameters</h3>
+      <select id="params" class="dropdowns">
+        <option value = "Topics">Topics</option>
+        <option value = "Spotify">Spotify</option>
+        <option value = "Both">Both</option>
+      </select>
+      <h3 style='color:#2EFE2E'>Artist</h3>
+      <select id="Artists" class="dropdowns">
+        {% for artist in artists %}
+            <option value = "{{ artist|safe }}">{{ artist }}</option>
+        {% endfor %}
+      </select>
+      <h3 style='color:#2EFE2E'>Album</h3>
+      <select id="selectalbums" class="dropdowns">
+        {% for album in album_init %}
+            <option value = "{{ album|safe }}">{{ album }}</option>
+        {% endfor %}
+      </select>
+      <h3 style='color:#2EFE2E'>Track Name</h3>
+      <select id="selecttracks" class="dropdowns">
+        {% for track in track_init %}
+            <option value = "{{ track|safe }}">{{ track }}</option>
+        {% endfor %}
+      </select>
+      <h3 style='color:#2EFE2E'>Number of Suggestions</h3>
+      <input id="songcount" class="dropdowns" value=3></input>
+    </div>
+
+    <!-- Trigger/Open The Modal -->
+
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Instructions</h2>
+        </div>
+        <div class="modal-body">
+          <h3>Pick Similarity Parameters
+            <p>You can get song recommendations based on lyric topics, Spotify metrics, or combination of both</p>
+          </h3>
+          <h3>Pick an Artist</h3>
+          <h3>Pick an Album</h3>
+          <h3>Pick a Track</h3>
+          <h3>Enter Number of Similar Tracks You Want</h3>
+          <h3>Submit!</h3>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- song table -->
+    <div class="table">
+        <table class="table-fill">
+            <thead>
+                <tr id='table_head'>
+
+                </tr>
+            </thead>
+            <tbody id="similar_tracks" class="table-hover">
+
+            </tbody>
+        </table>
+    </div>
+
+
+      </body>
+
+
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+$("#params").change(function() {
+  $("#selectalbums").empty();
+  $("#selecttracks").empty();
+  $("#table_head").empty();
+  $("#similar_tracks").empty();
+  $.ajax({
+      type: "POST",
+      contentType: "application/json; charset=utf-8",
+      url: "/selectparams",
+      dataType: "json",
+      async: true,
+      data: JSON.stringify({"params": param}),
+      success: function(data) {
+          //alert(JSON.stringify(data));
+          $("#selectalbums").append(data['albums']);
+          $("#selecttracks").append(data['tracks']);
+      },
+      error: function (data) {
+        //alert(JSON.stringify(data));
+      }
+  });
+
+});
+$("#Artists").change(function() {
+        var artist = $("#Artists").val();
+        var param = $("#params").val();
+        $("#selectalbums").empty();
+        $("#selecttracks").empty();
+        $("#table_head").empty();
+        $("#similar_tracks").empty();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/selectalbums",
+            dataType: "json",
+            async: true,
+            data: JSON.stringify({"artist": artist,
+                                  "params": param}),
+            success: function(data) {
+                //alert(JSON.stringify(data));
+                $("#selectalbums").append(data);
+            },
+            error: function (data) {
+              //alert(JSON.stringify(data));
+            }
+        });
+    });
+
+$("#selectalbums").change(function() {
+        var album = $("#selectalbums").val();
+        var param = $("#params").val();
+        $("#table_head").empty();
+        //$("#selectalbums").empty();
+        $("#selecttracks").empty();
+        $("#similar_tracks").empty();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/selecttracks",
+            dataType: "json",
+            async: true,
+            data: JSON.stringify({"album": album,
+                                  "params": param}),
+            success: function(data) {
+                //alert(JSON.stringify(data));
+                $("#selecttracks").append(data);
+            },
+            error: function (data) {
+              //alert(JSON.stringify(data));
+            }
+        });
+    });
+
+    $("#submit").click(function() {
+            var track = $("#selecttracks").val();
+            var param = $("#params").val();
+            var songcount = $("#songcount").val();
+
+            $("#table_head").empty();
+            $("#similar_tracks").empty();
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/similar",
+                dataType: "json",
+                async: true,
+                data: JSON.stringify({"track": track,
+                                      "params": param,
+                                      "count": songcount}),
+                success: function(data) {
+                    //alert(JSON.stringify(data));
+                    $("#table_head").append(data['headers']);
+                    $("#similar_tracks").append(data['data']);
+                },
+                error: function (data) {
+                  //alert(JSON.stringify(data));
+                }
+            });
+        });
+
+
+</script>
+<script type="text/javascript">
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("instructions");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+</html>

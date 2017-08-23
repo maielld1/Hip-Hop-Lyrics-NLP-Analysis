@@ -6,12 +6,10 @@ warnings.filterwarnings('ignore')
 
 
 def get_similar_songs(df, track_name, num):
-    print(track_name)
     song_stats = df
     track = song_stats[song_stats['track_name']==track_name]
     track = track[track.columns[3:]]
     dist_and_index=[]
-    print(track)
     for row in song_stats.iterrows():
         index, data = row
         other_song = data.tolist()

@@ -127,16 +127,18 @@ def select_similar():
 
     info = ''
     similar_songs = get_similar_songs(song_stats, track, count)
-    count = 1
+    count = 0
     for x in similar_songs:
-        print(count)
-        info += '<tr id={}><td class="text-left">{}</td>'.format(count, count)
+        if count==0:
+            info += '<tr id={}><td class="text-center">{}</td>'.format('Your Song', 'Your Song')
+        else:
+            info += '<tr id={}><td class="text-center">{}</td>'.format(count, count)
         for col in cols:
             try:
                 x[col] = round(x[col],3)
             except:
                 pass
-            info += '<td class="text-left">{}</td>'.format(x[col])
+            info += '<td class="text-center">{}</td>'.format(x[col])
         info += '</tr>'
         count+=1
 

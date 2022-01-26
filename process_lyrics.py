@@ -21,7 +21,8 @@ stop_words = get_stop_words('english')
 lyricisms = ["oh","ohh","ooh", "ah", "ahh", "yeah","yes", "u", "mmm", "uh", "hey", "la", "na", "yo", "ya", "yeh",
 "woah","whoa", "huh", "woah", "yea", "doo", "de", "nah", "da", "ha", "ba", "wo", "wow", "woo", "ooo", "dee", "dum", "hmm"]
 
-profane = ['shit', 'fuck', 'nigga', 'pussy', 'bitch', 'dick', 'niggas', 'niggaz', 'motherfucker', 'bitches']
+#profane = [insert profane words] excluded
+profane = []
 
 punct = '?!,.:";/()'
 
